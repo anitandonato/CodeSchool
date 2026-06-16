@@ -12,10 +12,10 @@ services:
       - key: JWT_KEY
         generateValue: true
       - key: ALLOWED_ORIGINS
-        value: https://codeschool.onrender.com
+        value: https://codeschool-web.onrender.com
 
   - type: web
-    name: codeschool
+    name: codeschool-web
     env: static
     rootDir: CodeSchool.Frontend
     buildCommand: npm install && npm run build
