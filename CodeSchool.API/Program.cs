@@ -52,7 +52,9 @@ builder.Services.AddCors(options =>
         var allowedOrigins = new List<string> { "http://localhost:5173", "http://localhost:5174" };
         var envOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS");
         if (!string.IsNullOrEmpty(envOrigins))
-            allowedOrigins.AddRange(envOrigins.Split(','));
+            allowedOrigins.AddRange(envOrigins.Split(',')
+                .Select(h => h.Trim()).Where(h => !string.IsNullOrEmpty(h))
+                .Select(h => h.StartsWith("http") ? h : $"https://{h}"));
 
         policy.WithOrigins([.. allowedOrigins])
               .AllowAnyHeader()

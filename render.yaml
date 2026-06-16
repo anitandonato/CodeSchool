@@ -1,10 +1,9 @@
 services:
   - type: web
     name: codeschool-api
-    runtime: dotnet
-    rootDir: CodeSchool.API
-    buildCommand: dotnet publish CodeSchool.API.csproj -c Release -o out
-    startCommand: dotnet out/CodeSchool.API.dll
+    env: docker
+    dockerfilePath: ./CodeSchool.API/Dockerfile
+    dockerContext: ./CodeSchool.API
     envVars:
       - key: ASPNETCORE_URLS
         value: http://+:$PORT
@@ -16,7 +15,7 @@ services:
         fromService:
           type: web
           name: codeschool-frontend
-          property: hostURL
+          property: host
 
   - type: web
     name: codeschool-frontend
@@ -29,7 +28,7 @@ services:
         fromService:
           type: web
           name: codeschool-api
-          property: hostURL
+          property: host
     routes:
       - type: rewrite
         source: /*
